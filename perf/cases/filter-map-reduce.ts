@@ -1,4 +1,4 @@
-import * as EffectStream from '@effect/core/Stream/Stream'
+import * as EffectStream from '@effect/core/stream/Stream'
 import { pipe } from '@fp-ts/data/Function'
 import * as M from '@most/core'
 import * as Chunk from '@tsplus/stdlib/collections/Chunk'

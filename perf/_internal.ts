@@ -1,11 +1,13 @@
 import process from 'node:process'
 
-import * as EffectStream from '@effect/core/Stream/Stream'
 import * as Effect from '@effect/core/io/Effect'
+import * as EffectStream from '@effect/core/stream/Stream'
+import * as EffectIO from '@effect/io/Effect'
 import * as M from '@most/core'
 import * as MS from '@most/scheduler'
 import * as MT from '@most/types'
 import benchmark, { Suite } from 'benchmark'
+import * as CB from 'callbag-effect-ts/Source'
 import * as RxJS from 'rxjs'
 
 import * as Fx from '@/index.js'
@@ -148,6 +150,16 @@ export function effectTsStreamTest<E, A>(init: () => EffectStream.Stream<never, 
     () => EffectStream.runDrain(init()),
     (e, deferred) => {
       Effect.unsafeRunPromise(e).then(() => deferred.resolve())
+    },
+  )
+}
+
+export function callbagTest<E, A>(init: () => CB.EffectSource<never, E, A>) {
+  return PerformanceTestCase(
+    'callbag-effect-ts',
+    () => CB.runDrain(init()),
+    (e, deferred) => {
+      EffectIO.unsafeRunPromise(e).then(() => deferred.resolve())
     },
   )
 }

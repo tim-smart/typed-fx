@@ -1,7 +1,8 @@
-import * as EffectStream from '@effect/core/Stream/Stream'
+import * as EffectStream from '@effect/core/stream/Stream'
 import { pipe } from '@fp-ts/data/Function'
 import * as M from '@most/core'
 import * as Chunk from '@tsplus/stdlib/collections/Chunk'
+import * as CB from 'callbag-effect-ts/Source'
 import * as rxjs from 'rxjs'
 
 import {
@@ -11,6 +12,7 @@ import {
   iterations,
   mostStreamTest,
   rxjsObservableTest,
+  callbagTest,
 } from '../_internal.js'
 
 import * as Stream from '@/index.js'
@@ -45,5 +47,8 @@ export const cases = [
       EffectStream.flatMap((ns) => EffectStream.fromChunk(Chunk.from(ns))),
       EffectStream.scan(0, add),
     ),
+  ),
+  callbagTest(() =>
+    pipe(CB.fromIterable(nestedArray), CB.flatMap(CB.fromIterable), CB.scan(0, add)),
   ),
 ]
